@@ -5,6 +5,10 @@ cmake_policy(SET CMP0155 OLD)
 option(BUILD_MAA_UTILS "build maa utils" ON)
 option(WITH_RPATH_LIBRARY "with rpath library for linux" ${LINUX})
 
+if (WITH_RPATH_LIBRARY AND NOT DEFINED RPATH_LIBRARY_INSTALL_DIR)
+    set(RPATH_LIBRARY_INSTALL_DIR bin)
+endif()
+
 set(Boost_NO_WARN_NEW_VERSIONS ON)
 
 # set(CMAKE_EXPORT_COMPILE_COMMANDS ON) see below
