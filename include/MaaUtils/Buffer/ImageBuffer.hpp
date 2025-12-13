@@ -1,8 +1,8 @@
 #pragma once
 
 #include "BufferTypes.hpp"
-#include "MaaUtils/Conf.h"
 #include "ListBuffer.hpp"
+#include "MaaUtils/Conf.h"
 
 MAA_SUPPRESS_CV_WARNINGS_BEGIN
 #include <opencv2/core/mat.hpp>
@@ -20,6 +20,8 @@ public:
         : image_(std::move(image))
     {
     }
+
+    ImageBuffer(ImageEncodedBuffer buffer) { from_encoded(std::move(buffer)); }
 
     virtual ~ImageBuffer() override = default;
 
@@ -61,7 +63,16 @@ public:
         image_ = image.clone();
     }
 
+    virtual void set(ImageEncodedBuffer buffer) override { from_encoded(std::move(buffer)); }
+
 private:
+    void from_encoded(ImageEncodedBuffer buffer)
+    {
+        image_ = cv::imdecode(buffer, cv::IMREAD_COLOR);
+        encoded_cache_ = std::move(buffer);
+        dirty_ = false;
+    }
+
     void encode() const
     {
         if (!dirty_) {
@@ -79,7 +90,7 @@ private:
 
     cv::Mat image_;
     mutable bool dirty_ = true;
-    mutable std::vector<uint8_t> encoded_cache_;
+    mutable ImageEncodedBuffer encoded_cache_;
 };
 
 MAA_NS_END

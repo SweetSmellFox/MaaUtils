@@ -22,6 +22,8 @@ public:
     virtual void set(std::string str) = 0;
 };
 
+using ImageEncodedBuffer = std::vector<uint8_t>;
+
 struct MaaImageBuffer
 {
 public:
@@ -42,4 +44,5 @@ public:
     virtual const cv::Mat& get() const = 0;
 
     virtual void set(cv::Mat image) = 0;
+    virtual void set(ImageEncodedBuffer buffer) = 0;
 };
