@@ -130,7 +130,7 @@ bool ChildPipeIOStream::is_open() const
     return !pin_.eof();
 }
 
-bool ChildPipeIOStream::running() const
+bool ChildPipeIOStream::running()
 {
     return child_.running();
 }
