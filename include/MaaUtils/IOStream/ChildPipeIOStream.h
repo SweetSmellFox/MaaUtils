@@ -31,6 +31,8 @@ public:
     virtual bool release() override;
     virtual bool is_open() const override;
 
+    bool running() const;
+
 protected:
     virtual std::string read_once(size_t max_count) override;
 
@@ -45,7 +47,7 @@ private:
 
     boost::process::ipstream pin_;
     boost::process::opstream pout_;
-    boost::process::child child_;
+    mutable boost::process::child child_;
 
     std::unique_ptr<char[]> buffer_ = nullptr;
 };

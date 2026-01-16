@@ -130,6 +130,11 @@ bool ChildPipeIOStream::is_open() const
     return !pin_.eof();
 }
 
+bool ChildPipeIOStream::running() const
+{
+    return child_.running();
+}
+
 std::string ChildPipeIOStream::read_once(size_t max_count)
 {
     constexpr size_t kBufferSize = 128 * 1024;
